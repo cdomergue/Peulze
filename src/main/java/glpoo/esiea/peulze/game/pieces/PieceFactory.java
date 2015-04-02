@@ -12,4 +12,13 @@ public class PieceFactory {
 
     private PieceFactory() {
     }
+
+    public Piece createPiece(String type, int x, int y, int orientation) {
+        switch(type){
+            case "Basic":
+                return new BasicPiece(x, y, orientation);
+            default:
+                return null;
+        }
+    }
 }
