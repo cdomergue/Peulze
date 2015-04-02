@@ -16,8 +16,11 @@ hs_err_pid*
 
 .project
 
+.idea
+
 .settings/org.eclipse.jdt.core.prefs
 
 .settings/org.eclipse.m2e.core.prefs
 
-src/main/java/glpoo/esiea/peulze/Game/Game.java
+.idea/uiDesigner.xml
+Peulze.iml
