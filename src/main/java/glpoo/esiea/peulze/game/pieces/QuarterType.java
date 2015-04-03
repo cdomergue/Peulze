@@ -1,0 +1,8 @@
+package glpoo.esiea.peulze.game.pieces;
+
+/**
+ * Created by Christophe on 03/04/2015.
+ */
+public enum QuarterType {
+    BORD, FACE;
+}

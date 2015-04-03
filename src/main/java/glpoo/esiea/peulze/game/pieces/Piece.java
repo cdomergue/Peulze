@@ -1,44 +1,23 @@
 package glpoo.esiea.peulze.game.pieces;
 
+import glpoo.esiea.peulze.game.GameObject;
+
 /**
  * Created by Christophe on 02/04/2015.
  */
-public abstract class Piece {
+public class Piece extends GameObject {
     private int x;
     private int y;
-    private int orientation;
-    private Face face1, face2, face3, face4;
+    private Quarter nord, sud, est, ouest;
 
-    public Face getFace1() {
-        return face1;
-    }
-
-    public void setFace1(Face face1) {
-        this.face1 = face1;
-    }
-
-    public Face getFace2() {
-        return face2;
-    }
-
-    public void setFace2(Face face2) {
-        this.face2 = face2;
-    }
-
-    public Face getFace3() {
-        return face3;
-    }
-
-    public void setFace3(Face face3) {
-        this.face3 = face3;
-    }
-
-    public Face getFace4() {
-        return face4;
-    }
-
-    public void setFace4(Face face4) {
-        this.face4 = face4;
+    public Piece(int id, int x, int y, Quarter nord, Quarter sud, Quarter est, Quarter ouest) {
+        this.x = x;
+        this.y = y;
+        this.nord = nord;
+        this.sud = sud;
+        this.est = est;
+        this.ouest = ouest;
+        this.setId(id);
     }
 
     public int getX() {
@@ -57,11 +36,35 @@ public abstract class Piece {
         this.y = y;
     }
 
-    public int getOrientation() {
-        return orientation;
+    public Quarter getNord() {
+        return nord;
     }
 
-    public void setOrientation(int orientation) {
-        this.orientation = orientation;
+    public void setNord(Quarter nord) {
+        this.nord = nord;
+    }
+
+    public Quarter getSud() {
+        return sud;
+    }
+
+    public void setSud(Quarter sud) {
+        this.sud = sud;
+    }
+
+    public Quarter getEst() {
+        return est;
+    }
+
+    public void setEst(Quarter est) {
+        this.est = est;
+    }
+
+    public Quarter getOuest() {
+        return ouest;
+    }
+
+    public void setOuest(Quarter ouest) {
+        this.ouest = ouest;
     }
 }
