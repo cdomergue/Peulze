@@ -5,4 +5,15 @@ package glpoo.esiea.peulze.game.pieces;
  */
 public enum QuarterType {
     BORD, FACE;
+
+    public static QuarterType getTypeFromString(String value) throws TypeNotFoundException {
+        switch (value) {
+            case "B":
+                return QuarterType.BORD;
+            case "F":
+                return QuarterType.FACE;
+            default:
+                throw new TypeNotFoundException(value);
+        }
+    }
 }

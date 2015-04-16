@@ -3,14 +3,8 @@ package glpoo.esiea.peulze.game;
 /**
  * Created by Christophe on 03/04/2015.
  */
-public abstract class GameObject {
-    private int id;
+public interface GameObject {
 
-    public int getId() {
-        return id;
-    }
+    public int getId();
 
-    public void setId(int id) {
-        this.id = id;
-    }
 }

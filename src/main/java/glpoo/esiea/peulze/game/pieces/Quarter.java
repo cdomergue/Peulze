@@ -5,49 +5,13 @@ import glpoo.esiea.peulze.game.GameObject;
 /**
  * Created by Christophe on 03/04/2015.
  */
-public class Quarter extends GameObject {
-    private QuarterType type;
-    private String couleurFond;
-    private String forme;
-    private String couleurForme;
+public interface Quarter extends GameObject {
 
-    public Quarter(int id, QuarterType type, String couleurFond, String forme, String couleurForme) {
-        this.type = type;
-        this.couleurFond = couleurFond;
-        this.forme = forme;
-        this.couleurForme = couleurForme;
-        this.setId(id);
-    }
+    public QuarterType getType();
 
-    public QuarterType getType() {
-        return type;
-    }
+    public String getCouleurFond();
 
-    public void setType(QuarterType type) {
-        this.type = type;
-    }
+    public String getForme();
 
-    public String getCouleurFond() {
-        return couleurFond;
-    }
-
-    public void setCouleurFond(String couleurFond) {
-        this.couleurFond = couleurFond;
-    }
-
-    public String getForme() {
-        return forme;
-    }
-
-    public void setForme(String forme) {
-        this.forme = forme;
-    }
-
-    public String getCouleurForme() {
-        return couleurForme;
-    }
-
-    public void setCouleurForme(String couleurForme) {
-        this.couleurForme = couleurForme;
-    }
+    public String getCouleurForme();
 }
