@@ -4,14 +4,10 @@ package glpoo.esiea.peulze.game.pieces;
  * Created by Christophe on 02/04/2015.
  */
 public class PieceImpl implements Piece {
-    private int x;
-    private int y;
     private int id;
     private int idNord, idSud, idEst, idOuest;
 
-    public PieceImpl(int id, int x, int y, int nord, int sud, int est, int ouest) {
-        this.x = x;
-        this.y = y;
+    public PieceImpl(int id, int nord, int sud, int est, int ouest) {
         this.idNord = nord;
         this.idSud = sud;
         this.idEst = est;
@@ -19,22 +15,31 @@ public class PieceImpl implements Piece {
         this.id = id;
     }
 
-    @Override
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
 
     @Override
-    public int getY() {
-        return y;
+    public void rotateLeft() {
+        int tmpNord, tmpSud, tmpEst, tmpOuest;
+        tmpNord = idEst;
+        tmpEst = idSud;
+        tmpSud = idOuest;
+        tmpOuest = idNord;
+        idNord = tmpNord;
+        idEst = tmpEst;
+        idSud = tmpSud;
+        idOuest = tmpOuest;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    @Override
+    public void rotateRight() {
+        int tmpNord, tmpSud, tmpEst, tmpOuest;
+        tmpNord = idOuest;
+        tmpEst = idNord;
+        tmpSud = idEst;
+        tmpOuest = idSud;
+        idNord = tmpNord;
+        idEst = tmpEst;
+        idSud = tmpSud;
+        idOuest = tmpOuest;
     }
 
     public int getIdNord() {

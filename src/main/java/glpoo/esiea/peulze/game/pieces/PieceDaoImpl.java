@@ -57,6 +57,6 @@ public class PieceDaoImpl implements PieceDao {
        idQuarterOuest = new Integer(values[5]);
 
 
-        return new PieceImpl(idPiece, 0, 0, idQuarterNord, idQuarterSud, idQuarterEst, idQuarterOuest);
+        return new PieceImpl(idPiece, idQuarterNord, idQuarterSud, idQuarterEst, idQuarterOuest);
     }
 }
