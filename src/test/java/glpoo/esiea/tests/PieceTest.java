@@ -27,7 +27,7 @@ public class PieceTest {
     public void testNbPieces() {
         LOGGER.debug("do testNbPieces");
         //Arrange
-        final int nbPiecesAttendues = 3;
+        final int nbPiecesAttendues = 16;
 
         //Act
         final List<Piece> pieces = pieceDao.readAllPieces();
@@ -44,9 +44,9 @@ public class PieceTest {
         List<Piece> quarters = pieceDao.readAllPieces();
         final int idPieceAttendu = 1;
         final int idFormeNordAttendu = 1;
-        final int idFormeEstAttendu = 2;
-        final int idFormeSudAttendu = 3;
-        final int idFormeOuestAttendu = 4;
+        final int idFormeEstAttendu = 5;
+        final int idFormeSudAttendu = 4;
+        final int idFormeOuestAttendu = 1;
 
 
         //Act
@@ -68,24 +68,24 @@ public class PieceTest {
     }
 
     @Test
-    public void testTroisièmeElement() {
-        LOGGER.debug("do testTroisièmeElement");
+    public void testOnzièmeElement() {
+        LOGGER.debug("do testOnzièmeElement");
 
         //Arrange
         List<Piece> quarters = pieceDao.readAllPieces();
-        final int idPieceAttendu = 3;
+        final int idPieceAttendu = 11;
         final int idFormeNordAttendu = 3;
-        final int idFormeEstAttendu = 5;
-        final int idFormeSudAttendu = 3;
+        final int idFormeEstAttendu = 3;
+        final int idFormeSudAttendu = 5;
         final int idFormeOuestAttendu = 2;
 
 
         //Act
-        final int idPiece = quarters.get(2).getId();
-        final int idFormeNord = quarters.get(2).getIdNord();
-        final int idFormeEst = quarters.get(2).getIdEst();
-        final int idFormeSud = quarters.get(2).getIdSud();
-        final int idFormeOuest = quarters.get(2).getIdOuest();
+        final int idPiece = quarters.get(10).getId();
+        final int idFormeNord = quarters.get(10).getIdNord();
+        final int idFormeEst = quarters.get(10).getIdEst();
+        final int idFormeSud = quarters.get(10).getIdSud();
+        final int idFormeOuest = quarters.get(10).getIdOuest();
 
 
         //Assert
@@ -95,7 +95,7 @@ public class PieceTest {
         junit.framework.Assert.assertEquals(idFormeSud, idFormeSudAttendu);
         junit.framework.Assert.assertEquals(idFormeOuest, idFormeOuestAttendu);
 
-        LOGGER.debug("end testTroisièmeElement");
+        LOGGER.debug("end testOnzièmeElement");
     }
 
 
