@@ -10,12 +10,12 @@ public interface Piece extends GameObject {
 
     public int getY();
 
-    public Quarter getNord();
+    public int getIdNord();
 
-    public Quarter getSud();
+    public int getIdSud();
 
-    public Quarter getEst();
+    public int getIdEst();
 
-    public Quarter getOuest();
+    public int getIdOuest();
 
 }

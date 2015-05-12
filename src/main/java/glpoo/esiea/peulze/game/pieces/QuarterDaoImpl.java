@@ -1,5 +1,6 @@
 package glpoo.esiea.peulze.game.pieces;
 
+import glpoo.esiea.peulze.tools.Dao;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -28,7 +29,7 @@ public class QuarterDaoImpl implements QuarterDao {
         LOGGER.debug("Chargement des quarters");
 
         try {
-            final List<String> lignes = getLignesFromFile();
+            final List<String> lignes = Dao.getLignesFromFile("src/main/ressources/csv/quarters.csv");
 
             final List<Quarter> quarters = new ArrayList<>();
             for (String ligne : lignes) {
@@ -65,35 +66,5 @@ public class QuarterDaoImpl implements QuarterDao {
         return new QuarterImpl(id, type, couleurFond, forme, couleurForme);
     }
 
-    private List<String> getLignesFromFile() throws IOException {
 
-        final List<String> lignes = new ArrayList<>();
-        final String file = "src/main/ressources/csv/quarters.csv";
-        final FileReader fr = new FileReader(file);
-        final BufferedReader br = new BufferedReader(fr);
-
-
-        for (String ligne = br.readLine(); ligne != null; ligne = br.readLine()) {
-
-            // Suppression des espaces en trop
-            ligne = ligne.trim();
-
-            // Filtre des lignes vides
-            if (ligne.isEmpty()) {
-                continue;
-            }
-
-            // Filtre des lignes de commentaire
-            if (ligne.startsWith("#")) {
-                continue;
-            }
-
-            lignes.add(ligne);
-        }
-
-        br.close();
-        fr.close();
-        return lignes;
-
-    }
 }
