@@ -1,9 +1,11 @@
 package glpoo.esiea.peulze.game.pieces;
 
+import java.io.Serializable;
+
 /**
  * Created by Christophe on 02/04/2015.
  */
-public class PieceImpl implements Piece {
+public class PieceImpl implements Piece, Serializable {
     private int id;
     private int idNord, idSud, idEst, idOuest;
 

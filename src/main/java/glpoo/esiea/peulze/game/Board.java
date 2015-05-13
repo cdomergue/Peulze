@@ -6,12 +6,13 @@ import glpoo.esiea.peulze.game.pieces.Quarter;
 import glpoo.esiea.peulze.game.pieces.QuarterType;
 import glpoo.esiea.peulze.tools.GameObjectFinder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class Board {
+public class Board implements Serializable {
 
     private List<Piece> pieces;
     private List<Quarter> quarters;
@@ -29,7 +30,7 @@ public class Board {
      * @param columns  Nombre de colonnes du plateau
      * @param random   DEBUG : si on doit ou non mélanger les pièces de la main
      */
-    public Board(List<Piece> pieces, List<Quarter> quarters, int lines, int columns, boolean random) {
+    public Board(List<Piece> pieces, List<Quarter> quarters, int lines, int columns, boolean random)  {
         this.pieces = pieces;
         this.quarters = quarters;
         this.columns = columns;
@@ -38,12 +39,32 @@ public class Board {
         initHand(random);
     }
 
+    /**
+     * Charge un plateau précédemment sauvegardé
+     * @return
+     */
+    public static Board load(){
+        Board board = BoardSerializer.deserialize();
+        return board;
+    }
+
+    /**
+     * Sauvegarde le plateau actuel
+     */
+    public void save(){
+        BoardSerializer.serialize(this);
+    }
+
     public List<Integer> getHandPieces() {
         return handPieces;
     }
 
     public int[][] getBoard() {
         return board;
+    }
+
+    public List<Piece> getPieces() {
+        return pieces;
     }
 
     /**
@@ -184,6 +205,10 @@ public class Board {
         return handPieces.size() == 0;
     }
 
+    /**
+     * Retirer une pièce de la main
+     * @param piece à retirer
+     */
     private void removeFromHand(Piece piece) {
         Integer idToRemove = null;
         for (Integer id : handPieces) {
@@ -197,6 +222,11 @@ public class Board {
         }
     }
 
+    /**
+     * Vérifie que la pièce n'est pas dans la main
+     * @param piece a vérifier
+     * @return booléen
+     */
     private boolean notInHand(Piece piece) {
         for (Integer id : handPieces) {
             if (id.equals(piece.getId())) {
@@ -205,6 +235,5 @@ public class Board {
         }
         return true;
     }
-
 
 }

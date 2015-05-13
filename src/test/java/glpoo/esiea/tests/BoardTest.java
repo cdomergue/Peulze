@@ -149,7 +149,7 @@ public class BoardTest {
         Piece piece = pieces.get(3);
         piece.rotateLeft();
         piece.rotateRight();
-        boardInstance.putPiece(piece, 1,1);
+        boardInstance.putPiece(piece, 1, 1);
         final boolean deuxiemeTestVictoireVrai = boardInstance.checkWin();
 
         //Assert
@@ -157,5 +157,27 @@ public class BoardTest {
         Assert.assertEquals(deuxiemeTestVictoireVraiAttendu, deuxiemeTestVictoireVrai);
 
     }
+
+    /**
+     * On va tester la sauvegarde et le chargement
+     */
+    @Test
+    public void testSauvegarde(){
+        //Arrange
+        final Integer comparateurTailleMain = boardInstance.getHandPieces().size();
+        final Piece comparateurPieceN2 = pieces.get(2);
+
+        //Act
+        boardInstance.save();
+        boardInstance = Board.load();
+        final Integer comparéTailleMain = boardInstance.getHandPieces().size();
+        final Piece comparéPieceN2 = boardInstance.getPieces().get(2);
+
+        //Assert
+        Assert.assertEquals(comparateurTailleMain, comparéTailleMain);
+        Assert.assertEquals(comparateurPieceN2.getId(), comparéPieceN2.getId());
+    }
+
+
 
 }

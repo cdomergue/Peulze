@@ -1,9 +1,11 @@
 package glpoo.esiea.peulze.game.pieces;
 
+import java.io.Serializable;
+
 /**
  * Created by Christophe on 03/04/2015.
  */
-public class QuarterImpl implements Quarter {
+public class QuarterImpl implements Quarter, Serializable {
     private QuarterType type;
     private String couleurFond;
     private String forme;
