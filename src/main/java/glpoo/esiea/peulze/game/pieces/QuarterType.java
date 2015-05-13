@@ -4,7 +4,7 @@ package glpoo.esiea.peulze.game.pieces;
  * Created by Christophe on 03/04/2015.
  */
 public enum QuarterType {
-    BORD, FACE;
+    BORD, FACE, QuarterType;
 
     public static QuarterType getTypeFromString(String value) throws TypeNotFoundException {
         switch (value) {

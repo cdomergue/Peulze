@@ -3,6 +3,7 @@ package glpoo.esiea.peulze.game;
 
 import glpoo.esiea.peulze.game.pieces.Piece;
 import glpoo.esiea.peulze.game.pieces.Quarter;
+import glpoo.esiea.peulze.game.pieces.QuarterType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,36 +12,29 @@ import java.util.Random;
 
 public class Board {
 
-    private static Board boardInstance;
     private List<Piece> pieces;
     private List<Quarter> quarters;
     private int columns;
     private int lines;
-    private List<Piece> piecesMain;
+    private List<Integer> handPieces;
     private int board[][];
 
-    public List<Piece> getPiecesMain() {
-        return piecesMain;
+    public List<Integer> getHandPieces() {
+        return handPieces;
     }
 
     public int[][] getBoard() {
         return board;
     }
 
-    private Board(List<Piece> pieces, List<Quarter> quarters, int lines, int columns) {
+
+    public Board(List<Piece> pieces, List<Quarter> quarters, int lines, int columns) {
         this.pieces = pieces;
         this.quarters = quarters;
         this.columns = columns;
         this.lines = lines;
         initBoard();
-        initMain();
-    }
-
-    public static Board getInstance(List<Piece> pieces, List<Quarter> quarters, int lines, int columns){
-        if(boardInstance == null) {
-            boardInstance = new Board(pieces, quarters, lines, columns);
-        }
-            return boardInstance;
+        initHand();
     }
 
 
@@ -63,17 +57,19 @@ public class Board {
      * Initialise la main du joueur avec la liste des pièces
      * Mélange les pièces aléatoirement en changeant l'ordre et la rotation
      */
-    private void initMain() {
-        piecesMain = new ArrayList();
-        //On copie les pièces dans la main
-        piecesMain.addAll(pieces);
+    private void initHand() {
+        handPieces = new ArrayList();
+        //On ajoute les pièces dans la main
+        for(Piece piece : pieces){
+            handPieces.add(piece.getId());
+        }
         //On mélange aléatoirement les pièces de la main
-        Collections.shuffle(piecesMain);
+        Collections.shuffle(handPieces);
         //On rotatione aléatoirement les pièces
 
-        for (Piece piece : piecesMain) {
+        for (Piece piece : pieces) {
             Random rand = new Random();
-            int choice = rand.nextInt(1);
+            int choice = rand.nextInt(2);
             int nbRotate = rand.nextInt(10);
             switch (choice) {
                 case 0:
@@ -91,6 +87,85 @@ public class Board {
 
     }
 
+    /**
+     *  Place une pièce de sa main dans le plateau
+     *  Vérifie que la pièce puisse être bien placée
+     */
+    public boolean putPiece(Piece piece, int x, int y){
+        //Si on a pas la pièce dans notre main
+        if(notInHand(piece)) return false;
+
+        //Si on est en dehors du plateau
+        if(x > lines || y > columns || x < 0 || y < 0) return false;
+
+        //Si la case est déjà occupée
+        if(board[x][y] != 0) return false;
+
+        //On test si les pièces à coté sont bonnes
+        if(x != 0){
+            if(board[x-1][y] != 0 && (getPiece(board[x - 1][y]).getIdSud() != piece.getIdNord())) return false;
+        } else {
+            if(!getQuarter(piece.getIdNord()).getType().equals(QuarterType.BORD)) return false;
+        }
+        if(x != lines - 1){
+            if(board[x+1][y] != 0 && (getPiece(board[x+1][y]).getIdNord() != piece.getIdSud())) return false;
+        } else {
+            if(!getQuarter(piece.getIdSud()).getType().equals(QuarterType.BORD)) return false;
+        }
+        if(y != 0){
+            if(board[x][y-1] != 0 && (getPiece(board[x][y-1]).getIdEst() != piece.getIdOuest())) return false;
+        } else {
+            if(!getQuarter(piece.getIdOuest()).getType().equals(QuarterType.BORD)) return false;
+        }
+        if(y != columns - 1){
+            if(board[x][y+1] != 0 && (getPiece(board[x][y+1]).getIdOuest() != piece.getIdEst())) return false;
+        } else {
+            if(!getQuarter(piece.getIdEst()).getType().equals(QuarterType.BORD)) return false;
+        }
+        board[x][y] = piece.getId();
+        removeFromHand(piece);
+        return true;
+    }
+
+    private void removeFromHand(Piece piece) {
+        Integer idToRemove = null;
+        for(Integer id : handPieces){
+            if(id.equals(piece.getId())){
+                idToRemove = id;
+                break;
+            }
+        }
+        if(idToRemove !=null) {
+            handPieces.remove(idToRemove);
+        }
+    }
+
+    private boolean notInHand(Piece piece) {
+        for(Integer id : handPieces){
+            if(id.equals(piece.getId())){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Quarter getQuarter(int id) {
+        for (Quarter quarter : quarters){
+            if(quarter.getId() == id){
+                return quarter;
+            }
+        }
+        return null;
+    }
+
+    private Piece getPiece(int id) {
+        for(Piece piece : pieces){
+            if(piece.getId() == id){
+                return piece;
+            }
+        }
+        return null;
+    }
 
 
 }

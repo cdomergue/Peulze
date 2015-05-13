@@ -12,12 +12,14 @@ import java.util.List;
 public class BoardTest {
     private static final Logger LOGGER = Logger.getLogger(PieceTest.class);
     private Board boardInstance;
+    private List<Piece> pieces;
+    private List<Quarter> quarters;
 
     @Before
     public void before(){
-        List<Piece> pieces = PieceDaoImpl.getInstance().readAllPieces();
-        List<Quarter> quarters = QuarterDaoImpl.getInstance().readAllQuarters();
-        boardInstance = Board.getInstance(pieces,quarters,4,4);
+        pieces = PieceDaoImpl.getInstance().readAllPieces();
+        quarters = QuarterDaoImpl.getInstance().readAllQuarters();
+        boardInstance = new Board(pieces, quarters, 4, 4);
     }
 
     /**
@@ -35,9 +37,9 @@ public class BoardTest {
         final int laCase3 = boardInstance.getBoard()[1][0];
 
         //Assert
-        Assert.assertEquals(laCase1, caseAttendue);
-        Assert.assertEquals(laCase2, caseAttendue);
-        Assert.assertEquals(laCase3, caseAttendue);
+        Assert.assertEquals(caseAttendue, laCase1);
+        Assert.assertEquals(caseAttendue, laCase2);
+        Assert.assertEquals(caseAttendue, laCase3);
     }
 
     /**
@@ -49,10 +51,50 @@ public class BoardTest {
         final int nbPiecesAttendues = 16;
 
         //Act
-        final int nbPieces = boardInstance.getPiecesMain().size();
+        final int nbPieces = boardInstance.getHandPieces().size();
 
         //Assert
         Assert.assertEquals(nbPiecesAttendues, nbPieces);
+    }
+
+    /**
+     * On va tester le placement de pièces
+     */
+    @Test
+    public void testPutPiece(){
+        //Arrange
+        final boolean placementHorsZoneAttendu = false;
+        final boolean placementEnZoneAttendu = true;
+        final boolean placementDeuxiemePieceMauvaisEndroit1Attendu = false;
+        final boolean placementDeuxiemePieceMauvaisEndroit2Attendu = false;
+        final boolean placementDeuxiemePieceBonEndroitAttendu = true;
+        final boolean placementDeuxiemePieceANouveauAttendu = false;
+        PieceImpl piece1 = (PieceImpl) pieces.get(0);
+        piece1.setIdEst(2);
+        piece1.setIdNord(2);
+        piece1.setIdOuest(2);
+        piece1.setIdSud(2);
+        PieceImpl piece2 = (PieceImpl) pieces.get(4);
+        piece2.setIdEst(2);
+        piece2.setIdNord(3);
+        piece2.setIdOuest(1);
+        piece2.setIdSud(4);
+
+        //Act
+        final boolean placementHorsZone = boardInstance.putPiece(piece1,6,0);
+        final boolean placementEnZone = boardInstance.putPiece(piece1,1,1);
+        final boolean placementDeuxiemePieceMauvaisEndroit1 = boardInstance.putPiece(piece2,1,3);
+        final boolean placementDeuxiemePieceMauvaisEndroit2 = boardInstance.putPiece(piece2, 1,2);
+        final boolean placementDeuxiemePieceBonEndroit = boardInstance.putPiece(piece2,1,0);
+        final boolean placementDeuxiemePieceANouveau = boardInstance.putPiece(piece2,3,3);
+
+        //Assert
+        Assert.assertEquals(placementHorsZoneAttendu, placementHorsZone);
+        Assert.assertEquals(placementEnZoneAttendu, placementEnZone);
+        Assert.assertEquals(placementDeuxiemePieceMauvaisEndroit1Attendu, placementDeuxiemePieceMauvaisEndroit1);
+        Assert.assertEquals(placementDeuxiemePieceMauvaisEndroit2Attendu, placementDeuxiemePieceMauvaisEndroit2);
+        Assert.assertEquals(placementDeuxiemePieceBonEndroitAttendu, placementDeuxiemePieceBonEndroit);
+        Assert.assertEquals(placementDeuxiemePieceANouveauAttendu, placementDeuxiemePieceANouveau);
     }
 
 }
