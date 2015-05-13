@@ -1,6 +1,7 @@
 package glpoo.esiea.tests;
 
 import glpoo.esiea.peulze.game.Board;
+import glpoo.esiea.peulze.game.ObjectIdNotFoundException;
 import glpoo.esiea.peulze.game.pieces.*;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
@@ -61,7 +62,7 @@ public class BoardTest {
      * On va tester le placement de pièces
      */
     @Test
-    public void testPutPiece(){
+    public void testPutPiece() throws ObjectIdNotFoundException {
         //Arrange
         final boolean placementHorsZoneAttendu = false;
         final boolean placementEnZoneAttendu = true;

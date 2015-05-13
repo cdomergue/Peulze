@@ -4,6 +4,7 @@ package glpoo.esiea.peulze.game;
 import glpoo.esiea.peulze.game.pieces.Piece;
 import glpoo.esiea.peulze.game.pieces.Quarter;
 import glpoo.esiea.peulze.game.pieces.QuarterType;
+import glpoo.esiea.peulze.tools.GameObjectFinder;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -91,7 +92,7 @@ public class Board {
      *  Place une pièce de sa main dans le plateau
      *  Vérifie que la pièce puisse être bien placée
      */
-    public boolean putPiece(Piece piece, int x, int y){
+    public boolean putPiece(Piece piece, int x, int y) throws ObjectIdNotFoundException {
         //Si on a pas la pièce dans notre main
         if(notInHand(piece)) return false;
 
@@ -103,24 +104,24 @@ public class Board {
 
         //On test si les pièces à coté sont bonnes
         if(x != 0){
-            if(board[x-1][y] != 0 && (getPiece(board[x - 1][y]).getIdSud() != piece.getIdNord())) return false;
+            if(board[x-1][y] != 0 && (GameObjectFinder.getPiece(board[x - 1][y], pieces).getIdSud() != piece.getIdNord())) return false;
         } else {
-            if(!getQuarter(piece.getIdNord()).getType().equals(QuarterType.BORD)) return false;
+            if(!GameObjectFinder.getQuarter(piece.getIdNord(), quarters).getType().equals(QuarterType.BORD)) return false;
         }
         if(x != lines - 1){
-            if(board[x+1][y] != 0 && (getPiece(board[x+1][y]).getIdNord() != piece.getIdSud())) return false;
+            if(board[x+1][y] != 0 && (GameObjectFinder.getPiece(board[x + 1][y], pieces).getIdNord() != piece.getIdSud())) return false;
         } else {
-            if(!getQuarter(piece.getIdSud()).getType().equals(QuarterType.BORD)) return false;
+            if(!GameObjectFinder.getQuarter(piece.getIdSud(), quarters).getType().equals(QuarterType.BORD)) return false;
         }
         if(y != 0){
-            if(board[x][y-1] != 0 && (getPiece(board[x][y-1]).getIdEst() != piece.getIdOuest())) return false;
+            if(board[x][y-1] != 0 && (GameObjectFinder.getPiece(board[x][y - 1], pieces).getIdEst() != piece.getIdOuest())) return false;
         } else {
-            if(!getQuarter(piece.getIdOuest()).getType().equals(QuarterType.BORD)) return false;
+            if(!GameObjectFinder.getQuarter(piece.getIdOuest(), quarters).getType().equals(QuarterType.BORD)) return false;
         }
         if(y != columns - 1){
-            if(board[x][y+1] != 0 && (getPiece(board[x][y+1]).getIdOuest() != piece.getIdEst())) return false;
+            if(board[x][y+1] != 0 && (GameObjectFinder.getPiece(board[x][y + 1], pieces).getIdOuest() != piece.getIdEst())) return false;
         } else {
-            if(!getQuarter(piece.getIdEst()).getType().equals(QuarterType.BORD)) return false;
+            if(!GameObjectFinder.getQuarter(piece.getIdEst(), quarters).getType().equals(QuarterType.BORD)) return false;
         }
         board[x][y] = piece.getId();
         removeFromHand(piece);
@@ -147,24 +148,6 @@ public class Board {
             }
         }
         return true;
-    }
-
-    private Quarter getQuarter(int id) {
-        for (Quarter quarter : quarters){
-            if(quarter.getId() == id){
-                return quarter;
-            }
-        }
-        return null;
-    }
-
-    private Piece getPiece(int id) {
-        for(Piece piece : pieces){
-            if(piece.getId() == id){
-                return piece;
-            }
-        }
-        return null;
     }
 
 
