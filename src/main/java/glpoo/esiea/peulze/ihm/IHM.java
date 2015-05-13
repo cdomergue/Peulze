@@ -6,10 +6,10 @@ package glpoo.esiea.peulze.game.ihm;
 public class IHM {
     private static IHM ourInstance = new IHM();
 
-    public static IHM getInstance() {
-        return ourInstance;
+    private IHM() {
     }
 
-    private IHM() {
+    public static IHM getInstance() {
+        return ourInstance;
     }
 }

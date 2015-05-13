@@ -3,9 +3,6 @@ package glpoo.esiea.peulze.game.pieces;
 import glpoo.esiea.peulze.tools.Dao;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,11 +47,11 @@ public class PieceDaoImpl implements PieceDao {
         final String[] values = ligne.split(separator);
         final int idPiece, idQuarterNord, idQuarterEst, idQuarterSud, idQuarterOuest;
 
-       idPiece = new Integer(values[1]);
-       idQuarterNord = new Integer(values[2]);
-       idQuarterEst = new Integer(values[3]);
-       idQuarterSud = new Integer(values[4]);
-       idQuarterOuest = new Integer(values[5]);
+        idPiece = new Integer(values[1]);
+        idQuarterNord = new Integer(values[2]);
+        idQuarterEst = new Integer(values[3]);
+        idQuarterSud = new Integer(values[4]);
+        idQuarterOuest = new Integer(values[5]);
 
 
         return new PieceImpl(idPiece, idQuarterNord, idQuarterSud, idQuarterEst, idQuarterOuest);

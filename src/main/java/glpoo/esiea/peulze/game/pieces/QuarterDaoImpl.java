@@ -3,9 +3,6 @@ package glpoo.esiea.peulze.game.pieces;
 import glpoo.esiea.peulze.tools.Dao;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
