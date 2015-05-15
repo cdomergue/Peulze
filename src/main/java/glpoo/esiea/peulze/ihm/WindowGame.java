@@ -19,6 +19,7 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
 
     private static final String MAIN_MENU = "map/mainMenu.tmx";
     private static final String GAME_WINDOW = "map/game.tmx";
+    private static final String END_MENU = "map/end.tmx";
     private GameContainer container;
     private TiledMap map;
     private boolean isMainMenu;
@@ -28,6 +29,9 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
     private int selectedPiece;
     private int savedSelectedPiece;
     private boolean loadGame;
+    private  Audio background;
+    private boolean isEndMenu;
+    private Audio win2;
 
     public WindowGame() {
         super("Peulze");
@@ -42,6 +46,7 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
         this.container = gameContainer;
         this.map = new TiledMap(MAIN_MENU);
         startMusic();
+
     }
 
 
@@ -56,7 +61,14 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
             }
         }
         savedSelectedPiece = selectedPiece;
+        if(!isMainMenu) {
+            if (TheGame.checkWin() && isEndMenu == false) {
+                winMenu();
+                isEndMenu = true;
+            }
+        }
     }
+
 
     @Override
     public void render(GameContainer gameContainer, Graphics graphics) throws SlickException {
@@ -104,9 +116,13 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
      * @param y          Posisition y de la souris
      * @param clickCount Nombre de clics
      */
+
+
     @Override
     public void mouseClicked(int button, int x, int y, int clickCount) {
         super.mouseClicked(button, x, y, clickCount);
+        System.out.println("x : " + x);
+        System.out.println("y : " + y);
         //Si on est dans le menu principal
         if (isMainMenu) {
 
@@ -138,6 +154,26 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
                 }
             }
 
+        }
+        //Si on est dans le menu de fin
+        else if (isEndMenu){
+            if(x >240 && x < 360){
+                //Si on clique sur rejouer
+                if(y > 300 && y < 345){
+                    try {
+                        this.map = new TiledMap(MAIN_MENU);
+                        isMainMenu = true;
+                        isEndMenu = false;
+                        background.playAsMusic(1.0f,1.0f,true);
+                    } catch (SlickException e) {
+                        e.printStackTrace();
+                    }
+                }
+                //Si on clique sur quitter
+                if(y > 370 && y < 414){
+                    System.exit(0);
+                }
+            }
         }
         //Si on est dans le jeu
         else {
@@ -481,6 +517,11 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
         }
     }
 
+    /**
+     * Met la pièce a jour graphiquement
+     * @param windowPiece
+     * @param small
+     */
     private void updateGraphically(WindowPiece windowPiece, boolean small) {
         Piece piece = null;
         try {
@@ -496,6 +537,11 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
         }
     }
 
+    /**
+     * Récupère une windowPiece
+     * @param id
+     * @return
+     */
     private WindowPiece getWindowPiece(int id) {
         for(WindowPiece windowPiece : windowPieces){
             if(windowPiece.getId() == id){
@@ -506,40 +552,54 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
         return null;
     }
 
+    /**
+     * Lance la musique de fond
+     */
     private void startMusic(){
-        Music background = null;
         try {
-            background = new Music("sounds/mainMusic.ogg");
-            background.loop();
+            background =  AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/mainMusic.ogg"));
+            background.playAsMusic(1.0f, 1.0f, true);
 
-        } catch (SlickException e) {
-            try {
-                background = new Music("src/main/ressources/sounds/mainMusic.ogg");
-                background.loop();
-            } catch (SlickException e1) {
-                e1.printStackTrace();
-                return;
-            }
-
+        }  catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
 
+    /**
+     * Joue un son
+     * @param sound
+     */
     private void playSound(String sound){
         Audio playSound = null;
         try {
             playSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/" + sound));
-            playSound.playAsSoundEffect(1.0f,1.0f,false);
+            playSound.playAsSoundEffect(1.0f, 1.0f, false);
         } catch (IOException e) {
-            try {
-                playSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("src/main/ressources/sounds/" + sound));
-                playSound.playAsSoundEffect(1.0f,1.0f,false);
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
+            e.printStackTrace();
 
         }
+    }
 
+    private void winMenu() {
+        try {
+            this.map = new TiledMap(END_MENU);
+            background.stop();
 
+            Audio win1 = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/win1.ogg"));
+            win1.playAsMusic(1.0f,1.0f,false);
+            while(win1.isPlaying());
+            win2 = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/win2.ogg"));
+            win2.playAsMusic(1.0f, 1.0f, true);
+            cleanPieces();
+        } catch (SlickException e) {
+            e.printStackTrace();
+        }  catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void cleanPieces() {
+        windowPieces.clear();
     }
 }

@@ -17,20 +17,13 @@ public class ImageQuarterFactory {
      */
     public static String getImage(int quarterId, String orientation, boolean small) throws ObjectIdNotFoundException {
         String path;
-        if(TheGame.path){
-            if (small) {
-                path = "src/main/ressources/map/images/quarters/small/";
-            } else {
-                path = "src/main/ressources/map/images/quarters/";
-            }
 
+        if (small) {
+            path = "map/images/quarters/small/";
         } else {
-            if (small) {
-                path = "map/images/quarters/small/";
-            } else {
-                path = "map/images/quarters/";
-            }
+            path = "map/images/quarters/";
         }
+
         switch (quarterId) {
             case 1:
                 return path + "black" + orientation + ".png";

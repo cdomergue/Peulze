@@ -3,6 +3,7 @@ package glpoo.esiea.peulze.game.pieces;
 import glpoo.esiea.peulze.game.TheGame;
 import glpoo.esiea.peulze.tools.Dao;
 import org.apache.log4j.Logger;
+import org.lwjgl.Sys;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,23 +41,7 @@ public class QuarterDaoImpl implements QuarterDao {
             return quarters;
 
         } catch (Exception e) {
-            LOGGER.info("Mauvais chemin, tentative nouveau chemin");
-            TheGame.path = true;
-            List<String> lignes = null;
-            try {
-                lignes = Dao.getLignesFromFile("src/main/ressources/csv/quarters.csv");
-                final List<Quarter> quarters = new ArrayList<>();
-                for (String ligne : lignes) {
-                    final Quarter quarter = transformLigneToQuarter(ligne);
-                    quarters.add(quarter);
-                }
-
-                return quarters;
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            } catch (TypeNotFoundException e1) {
-                e1.printStackTrace();
-            }
+            e.printStackTrace();
 
         }
         System.exit(1);

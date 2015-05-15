@@ -19,7 +19,6 @@ public class TheGame {
     private static Board boardInstance;
     private static List<Piece> pieces;
     private static List<Quarter> quarters;
-    public static boolean path;
 
 
     public static void main(String[] args) throws IOException, SlickException {
@@ -94,5 +93,13 @@ public class TheGame {
             e.printStackTrace();
             return false;
         }
+    }
+
+    /**
+     * Vérifie si l'on a gaggné
+     * @return
+     */
+    public static boolean checkWin() {
+      return  boardInstance.checkWin();
     }
 }

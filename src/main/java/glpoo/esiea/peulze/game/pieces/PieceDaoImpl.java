@@ -39,23 +39,7 @@ public class PieceDaoImpl implements PieceDao {
             return pieces;
 
         } catch (IOException e) {
-            System.out.println("Chemin invalide, tentative autre chemin");
-            TheGame.path = true;
-            List<String> lignes = null;
-            try {
-                lignes = Dao.getLignesFromFile("src/main/ressources/csv/pieces.csv");
-                final List<Piece> pieces = new ArrayList<>();
-                for (String ligne : lignes) {
-                    final Piece piece = transformLigneToPiece(ligne);
-                    pieces.add(piece);
-                }
-                return pieces;
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                System.exit(1);
-            } catch (TypeNotFoundException e1) {
-                e1.printStackTrace();
-            }
+            e.printStackTrace();
         } catch (TypeNotFoundException e) {
             e.printStackTrace();
         }
