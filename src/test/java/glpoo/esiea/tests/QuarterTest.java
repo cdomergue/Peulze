@@ -71,10 +71,10 @@ public class QuarterTest {
 
         //Arrange
         List<Quarter> quarters = quarterDao.readAllQuarters();
-        final String couleurFondAttendu = "bleu";
+        final String couleurFondAttendu = "violet";
         final QuarterType quarterTypeAttendu = QuarterType.FACE;
         final int idAttendu = 3;
-        final String formeAttendu = "zigzag";
+        final String formeAttendu = "trait";
 
         //Act
         final String couleurFond = quarters.get(2).getCouleurFond();

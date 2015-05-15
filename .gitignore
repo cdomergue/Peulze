@@ -25,3 +25,7 @@ hs_err_pid*
 .idea/uiDesigner.xml
 Peulze.iml
 src/main/ressources/save
+*.dll
+*.so
+*.jnilib
+openal.dylib

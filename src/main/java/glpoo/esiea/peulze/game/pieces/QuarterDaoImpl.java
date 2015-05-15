@@ -1,8 +1,10 @@
 package glpoo.esiea.peulze.game.pieces;
 
+import glpoo.esiea.peulze.game.TheGame;
 import glpoo.esiea.peulze.tools.Dao;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,8 @@ public class QuarterDaoImpl implements QuarterDao {
         LOGGER.debug("Chargement des quarters");
 
         try {
-            final List<String> lignes = Dao.getLignesFromFile("src/main/ressources/csv/quarters.csv");
+            List<String> lignes = Dao.getLignesFromFile("csv/quarters.csv");
+
 
             final List<Quarter> quarters = new ArrayList<>();
             for (String ligne : lignes) {
@@ -37,9 +40,27 @@ public class QuarterDaoImpl implements QuarterDao {
             return quarters;
 
         } catch (Exception e) {
-            LOGGER.error("Une erreur s'est produite...", e);
-            return null;
+            LOGGER.info("Mauvais chemin, tentative nouveau chemin");
+            TheGame.path = true;
+            List<String> lignes = null;
+            try {
+                lignes = Dao.getLignesFromFile("src/main/ressources/csv/quarters.csv");
+                final List<Quarter> quarters = new ArrayList<>();
+                for (String ligne : lignes) {
+                    final Quarter quarter = transformLigneToQuarter(ligne);
+                    quarters.add(quarter);
+                }
+
+                return quarters;
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            } catch (TypeNotFoundException e1) {
+                e1.printStackTrace();
+            }
+
         }
+        System.exit(1);
+        return null;
     }
 
     private Quarter transformLigneToQuarter(String ligne) throws TypeNotFoundException {

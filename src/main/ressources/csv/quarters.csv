@@ -1,6 +1,6 @@
 # type(Bord/Face) id_face couleur_fond forme couleur_forme
 B 1 noir
-F 2 jaune triangle bleu
-F 3 bleu zigzag blanc
-F 4 rouge couronne jaune
-F 5 rouge lignes jaune
+F 2 bleu triangle rouge
+F 3 violet trait blanc
+F 4 rouge rond bleu
+F 5 jaune Carré rouge

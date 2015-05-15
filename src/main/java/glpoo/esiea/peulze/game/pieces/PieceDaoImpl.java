@@ -1,8 +1,10 @@
 package glpoo.esiea.peulze.game.pieces;
 
+import glpoo.esiea.peulze.game.TheGame;
 import glpoo.esiea.peulze.tools.Dao;
 import org.apache.log4j.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class PieceDaoImpl implements PieceDao {
         LOGGER.debug("Chargement des pièces");
 
         try {
-            final List<String> lignes = Dao.getLignesFromFile("src/main/ressources/csv/pieces.csv");
+            List<String> lignes = Dao.getLignesFromFile("csv/pieces.csv");
 
             final List<Piece> pieces = new ArrayList<>();
             for (String ligne : lignes) {
@@ -36,10 +38,29 @@ public class PieceDaoImpl implements PieceDao {
 
             return pieces;
 
-        } catch (Exception e) {
-            LOGGER.error("Une erreur s'est produite...", e);
-            return null;
+        } catch (IOException e) {
+            System.out.println("Chemin invalide, tentative autre chemin");
+            TheGame.path = true;
+            List<String> lignes = null;
+            try {
+                lignes = Dao.getLignesFromFile("src/main/ressources/csv/pieces.csv");
+                final List<Piece> pieces = new ArrayList<>();
+                for (String ligne : lignes) {
+                    final Piece piece = transformLigneToPiece(ligne);
+                    pieces.add(piece);
+                }
+                return pieces;
+            } catch (IOException e1) {
+                e1.printStackTrace();
+                System.exit(1);
+            } catch (TypeNotFoundException e1) {
+                e1.printStackTrace();
+            }
+        } catch (TypeNotFoundException e) {
+            e.printStackTrace();
         }
+        System.exit(1);
+        return null;
     }
 
     private Piece transformLigneToPiece(String ligne) throws TypeNotFoundException {

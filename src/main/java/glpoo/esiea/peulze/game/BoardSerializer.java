@@ -7,15 +7,25 @@ import java.io.*;
 public class BoardSerializer  {
 
     public static void serialize(Board board) {
-        final FileOutputStream fichier;
+        FileOutputStream fichier;
         ObjectOutputStream oos = null;
         try {
-            fichier = new FileOutputStream("src/main/ressources/save");
+            fichier = new FileOutputStream("save");
             oos = new ObjectOutputStream(fichier);
             oos.writeObject(board);
             oos.flush();
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("Mauvais chemin, tentative nouveau chemin");
+            try {
+                fichier = new FileOutputStream("src/main/ressources/save");
+                oos = new ObjectOutputStream(fichier);
+                oos.writeObject(board);
+                oos.flush();
+            } catch (IOException er) {
+                er.printStackTrace();
+
+            }
         } finally {
             try {
                 if (oos != null) {
@@ -24,20 +34,23 @@ public class BoardSerializer  {
                 }
             } catch (final IOException ex) {
                 ex.printStackTrace();
+
             }
         }
     }
 
     public static Board deserialize(){
-        final FileInputStream fichier;
+        FileInputStream fichier;
         ObjectInputStream ois = null;
         Board board = null;
         try {
-            fichier = new FileInputStream("src/main/ressources/save");
+            fichier = new FileInputStream("save");
             ois = new ObjectInputStream(fichier);
             board = (Board) ois.readObject();
         } catch (IOException e) {
-            e.printStackTrace();
+            fichier = new FileInputStream("src/main/ressources/save");
+            ois = new ObjectInputStream(fichier);
+            board = (Board) ois.readObject();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
