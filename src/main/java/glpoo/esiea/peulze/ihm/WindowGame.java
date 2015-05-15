@@ -5,8 +5,12 @@ import glpoo.esiea.peulze.game.TheGame;
 import glpoo.esiea.peulze.game.pieces.Piece;
 import glpoo.esiea.peulze.tools.GameObjectFinder;
 import org.newdawn.slick.*;
+import org.newdawn.slick.openal.Audio;
+import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.util.ResourceLoader;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +41,9 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
     public void init(GameContainer gameContainer) throws SlickException {
         this.container = gameContainer;
         this.map = new TiledMap(MAIN_MENU);
+        startMusic();
     }
+
 
     @Override
     public void update(GameContainer gameContainer, int i) throws SlickException {
@@ -86,7 +92,7 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
         if (selectedPiece != 0) {
             WindowPiece windowPiece = getWindowPiece(selectedPiece);
             windowPiece.setX(newx-24);
-            windowPiece.setY(newy-24);
+            windowPiece.setY(newy - 24);
         }
     }
 
@@ -198,6 +204,7 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
      */
     private void save() {
         TheGame.save();
+        playSound("save.ogg");
     }
 
     /**
@@ -413,6 +420,7 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
                 windowPiece.setY(y);
                 makeBigger(windowPiece);
                 selectedPiece = 0;
+                playSound("putPiece.ogg");
             }
         }
     }
@@ -456,6 +464,7 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
      * @param rotateToRight Si on tourne à droite, sinon c'est à gauche
      */
     private void rotate(boolean rotateToRight) {
+        playSound("rotate.ogg");
         try {
             if (rotateToRight)
                 GameObjectFinder.getPiece(selectedPiece, TheGame.getPieces()).rotateRight();
@@ -495,5 +504,42 @@ public class WindowGame extends org.newdawn.slick.BasicGame {
         }
         System.err.println("Impossible de récupérer la window pièce : npe");
         return null;
+    }
+
+    private void startMusic(){
+        Music background = null;
+        try {
+            background = new Music("sounds/mainMusic.ogg");
+            background.loop();
+
+        } catch (SlickException e) {
+            try {
+                background = new Music("src/main/ressources/sounds/mainMusic.ogg");
+                background.loop();
+            } catch (SlickException e1) {
+                e1.printStackTrace();
+                return;
+            }
+
+        }
+
+    }
+
+    private void playSound(String sound){
+        Audio playSound = null;
+        try {
+            playSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("sounds/" + sound));
+            playSound.playAsSoundEffect(1.0f,1.0f,false);
+        } catch (IOException e) {
+            try {
+                playSound = AudioLoader.getAudio("OGG", ResourceLoader.getResourceAsStream("src/main/ressources/sounds/" + sound));
+                playSound.playAsSoundEffect(1.0f,1.0f,false);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+
+        }
+
+
     }
 }

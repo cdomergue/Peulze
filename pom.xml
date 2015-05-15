@@ -144,6 +144,14 @@
             <version>${unitils-dbunit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Lire un fichier ogg -->
+        <dependency>
+            <groupId>org.jcraft</groupId>
+            <artifactId>jorbis</artifactId>
+            <version>0.0.17</version>
+            <scope>runtime</scope>
+        </dependency>
     </dependencies>
 
     <build>
