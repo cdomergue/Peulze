@@ -7,12 +7,11 @@
 ### Compilation
 Après avoir correctement installé maven, lancer la commande :
 ```
-clean package assembly:directory
+mvn clean assembly:assembly
 ```
 
 ### Lancement
-Se rendre dans le dossier *target/Peulze-jar-with-dependencies* puis lancer `java glpoo.esiea.peulze.game.TheGame`
-Sous Windows, il suffit de faire *SHIFT + CLIQUE DROIT* puis de cliquer sur *Ouvrir une fenêtre de commande ici*.
+Décompresser le fichier target/Peulze.zip quelque part et lancer start.bat pour Windows ou start.sh pour Linux.
 
 ## Touches
 Le  jeu n'utilise que la souris. Le clic gauche dans la main permet de prendre une pièce et de la déposer, et le clique droit de pivoter la pièce.

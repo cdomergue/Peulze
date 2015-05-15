@@ -1,0 +1,47 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+  <id>distribution</id>
+  <formats>
+    <!-- format de l'archive -->
+    <format>zip</format>
+  </formats>
+  <!-- fichier racine de l'archive g�n�r� -->
+  <baseDirectory>/</baseDirectory>
+  <fileSets>
+    <!-- inclusion du jar ex�cutable g�n�r� pr�c�demment -->
+    <fileSet>
+      <directory>target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>*.jar</include>
+      </includes>
+    </fileSet>
+    <!-- ajout des natives d�compress�es pr�c�demment -->
+    <fileSet>
+      <directory>target/natives</directory>
+      <outputDirectory>natives</outputDirectory>
+      <includes>
+        <include>*</include>
+      </includes>
+    </fileSet>
+    <!-- ajout des ressources et des scripts -->    
+    <fileSet>
+      <directory>src/main/ressources</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>**/*</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+  <!-- ajout d�pendance � l'exclusion des natives et de lui-m�me -->
+  <dependencySets>
+    <dependencySet>
+      <outputDirectory>/lib</outputDirectory>
+      <excludes>
+        <exclude>org.lwjgl.lwjgl:lwjgl-platform</exclude>
+        <exclude>net.java.jinput:jinput-platform</exclude>
+      </excludes>
+    </dependencySet>
+  </dependencySets>
+</assembly>
