@@ -22,4 +22,4 @@ Cliquer sur une pièce du plateau sans avoir désélectionner une autre pièce r
 Vous pouvez sauvegarder le jeu à tout moment en cliquant sur le bouton Sauvegarder. Il vous suffit de le charger ensuite depuis le menu principal. Attention, une seule sauvegarde n'est possible.
 
 ##Bugs connus
-En cours de résolution : le non validation de certaines pièces valides; la sauvegarde semi-fonctionnelle
+la mauvaise rotation des pièces lors du chargement
